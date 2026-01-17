@@ -1,0 +1,44 @@
+# ============================================
+# עוזר אישי להורים - משתני סביבה
+# ============================================
+
+# ===========================================
+# SUPABASE - מסד נתונים
+# ===========================================
+# URL של הפרויקט (כבר יש לך)
+NEXT_PUBLIC_SUPABASE_URL=https://vzfmavjctgxowcqfbwny.supabase.co
+
+# Anonymous Key (כבר יש לך - לצד קליינט)
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ6Zm1hdmpjdGd4b3djcWZid255Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc2MzMyNTcsImV4cCI6MjA4MzIwOTI1N30.JEA-vnMWCgQfew7RsUdbdESxMqji3ofcJPycJmVFQ1M
+
+# Service Role Key (מפתח שרת - חובה למלא!)
+# מקבלים ב: Supabase Dashboard > Settings > API > service_role key
+SUPABASE_SERVICE_ROLE_KEY=YOUR_SERVICE_ROLE_KEY_HERE
+
+# ===========================================
+# OPENAI - בינה מלאכותית
+# ===========================================
+# מפתח API של OpenAI
+# מקבלים ב: https://platform.openai.com/api-keys
+OPENAI_API_KEY=sk-YOUR_OPENAI_API_KEY_HERE
+
+# ===========================================
+# GREENAPI - שליחת הודעות WhatsApp
+# ===========================================
+# פרטי GreenAPI לשליחת סיכומים והתראות
+# נרשמים ב: https://green-api.com
+GREENAPI_INSTANCE_ID=YOUR_INSTANCE_ID
+GREENAPI_API_TOKEN=YOUR_API_TOKEN
+
+# ===========================================
+# WORKER - הגדרות וורקר
+# ===========================================
+WORKER_PORT=3001
+NODE_ENV=development
+
+# ===========================================
+# הוראות שימוש:
+# ===========================================
+# 1. העתק קובץ זה ל-.env (או .env.local עבור Next.js)
+# 2. מלא את כל הערכים שמסומנים ב-YOUR_
+# 3. אל תעלה את הקובץ .env ל-Git!

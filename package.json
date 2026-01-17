@@ -1,0 +1,29 @@
+{
+  "name": "parent-assistant",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev --filter=web",
+    "dev:all": "turbo dev",
+    "build": "turbo build",
+    "build:worker": "turbo build --filter=worker",
+    "lint": "turbo lint",
+    "dev:web": "turbo dev --filter=web",
+    "dev:worker": "cd apps/worker && npx tsx src/index.ts",
+    "docker:worker": "docker build -f apps/worker/Dockerfile -t parent-assistant-worker .",
+    "db:generate": "turbo db:generate",
+    "db:push": "turbo db:push"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.0",
+    "typescript": "^5.3.3"
+  },
+  "packageManager": "npm@10.2.0",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

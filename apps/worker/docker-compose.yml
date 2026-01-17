@@ -1,0 +1,54 @@
+# Parent Assistant Worker - Docker Compose
+# ==========================================
+# Usage:
+#   docker-compose up -d          # Start in background
+#   docker-compose logs -f        # View logs
+#   docker-compose down           # Stop
+#   docker-compose restart        # Restart
+
+version: '3.8'
+
+services:
+  worker:
+    build:
+      context: ../..
+      dockerfile: apps/worker/Dockerfile
+    container_name: parent-assistant-worker
+    restart: unless-stopped
+    
+    environment:
+      - NODE_ENV=production
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GREENAPI_INSTANCE_ID=${GREENAPI_INSTANCE_ID}
+      - GREENAPI_API_TOKEN=${GREENAPI_API_TOKEN}
+    
+    volumes:
+      # Persist WhatsApp sessions between restarts
+      - worker-sessions:/app/sessions
+    
+    # Memory limit (Puppeteer can be hungry)
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+    
+    # Security settings
+    security_opt:
+      - no-new-privileges:true
+    
+    # Logging
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  worker-sessions:
+    name: parent-assistant-sessions
+
+
