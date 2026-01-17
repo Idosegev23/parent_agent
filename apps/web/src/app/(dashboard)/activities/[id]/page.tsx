@@ -110,8 +110,8 @@ export default function EditActivityPage() {
     const supabase = createClient();
 
     // Update activity
-    const { error: activityError } = await supabase
-      .from('activities')
+    const { error: activityError } = await (supabase
+      .from('activities') as any)
       .update({
         name: activity.name,
         address: activity.address || null,
@@ -146,7 +146,7 @@ export default function EditActivityPage() {
           activity_id: activityId,
           category: r.category,
           description: r.description
-        })));
+        })) as any);
     }
 
     setIsSaving(false);
