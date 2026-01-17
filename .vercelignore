@@ -1,7 +1,7 @@
-# Worker files
-apps/worker/sessions/
-apps/worker/.wwebjs_cache/
+# Worker - don't build/deploy worker at all on Vercel
+apps/worker/**
 
 # Development files
 *.log
 .DS_Store
+node_modules/
