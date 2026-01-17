@@ -1,0 +1,7 @@
+# Worker files
+apps/worker/sessions/
+apps/worker/.wwebjs_cache/
+
+# Development files
+*.log
+.DS_Store
