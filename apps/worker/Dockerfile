@@ -49,11 +49,8 @@ RUN npm ci
 FROM base AS builder
 WORKDIR /app
 
-# Copy dependencies
+# Copy dependencies (monorepo - all in root node_modules)
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/apps/worker/node_modules ./apps/worker/node_modules 2>/dev/null || true
-COPY --from=deps /app/packages/database/node_modules ./packages/database/node_modules 2>/dev/null || true
-COPY --from=deps /app/packages/shared/node_modules ./packages/shared/node_modules 2>/dev/null || true
 
 # Copy source code
 COPY apps/worker/ ./apps/worker/
@@ -83,10 +80,8 @@ RUN groupadd -r worker && useradd -r -g worker worker
 # Copy built artifacts
 COPY --from=builder /app/apps/worker/dist ./apps/worker/dist
 COPY --from=builder /app/apps/worker/package.json ./apps/worker/
-COPY --from=builder /app/packages/database/dist ./packages/database/dist 2>/dev/null || true
 COPY --from=builder /app/packages/database/src ./packages/database/src
 COPY --from=builder /app/packages/database/package.json ./packages/database/
-COPY --from=builder /app/packages/shared/dist ./packages/shared/dist 2>/dev/null || true
 COPY --from=builder /app/packages/shared/src ./packages/shared/src
 COPY --from=builder /app/packages/shared/package.json ./packages/shared/
 COPY --from=builder /app/node_modules ./node_modules
