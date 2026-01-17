@@ -89,18 +89,19 @@ export default function EditActivityPage() {
       return;
     }
 
+    const activityData = data as any;
     setActivity({
-      name: data.name || '',
-      address: data.address || '',
-      instructor_name: data.instructor_name || '',
-      instructor_phone: data.instructor_phone || '',
-      child_id: data.child_id || '',
-      group_id: data.group_id || ''
+      name: activityData.name || '',
+      address: activityData.address || '',
+      instructor_name: activityData.instructor_name || '',
+      instructor_phone: activityData.instructor_phone || '',
+      child_id: activityData.child_id || '',
+      group_id: activityData.group_id || ''
     });
-    setSchedule(data.schedule || []);
-    setRequirements(data.activity_requirements || []);
-    setChildName((data.children as any)?.name || '');
-    setGroupName((data.groups as any)?.name || '');
+    setSchedule(activityData.schedule || []);
+    setRequirements(activityData.activity_requirements || []);
+    setChildName(activityData.children?.name || '');
+    setGroupName(activityData.groups?.name || '');
     setIsLoading(false);
   };
 
