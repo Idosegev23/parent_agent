@@ -2,8 +2,12 @@ import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
+// Force dynamic rendering - don't try to build this at compile time
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.OPENAI_API_KEY || 'placeholder'
 });
 
 // GreenAPI configuration - support both naming conventions
