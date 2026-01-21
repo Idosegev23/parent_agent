@@ -79,12 +79,10 @@ export class WhatsAppWorker {
           '--log-level=3',
           '--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
         ],
-        executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium-browser',
-        ignoreDefaultArgs: ['--disable-extensions'],
-        env: {
-          ...process.env,
-          CHROME_DEVEL_SANDBOX: '/usr/lib/chromium/chrome-sandbox'
-        }
+        // Let Puppeteer use its bundled Chromium instead of forcing system Chromium
+        // executablePath: undefined means use Puppeteer's downloaded Chromium
+        ...(process.env.PUPPETEER_EXECUTABLE_PATH && { executablePath: process.env.PUPPETEER_EXECUTABLE_PATH }),
+        ignoreDefaultArgs: ['--disable-extensions']
       }
     });
 

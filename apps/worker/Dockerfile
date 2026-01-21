@@ -29,13 +29,11 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Puppeteer and Chromium configuration
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
-ENV CHROME_BIN=/usr/bin/chromium
-ENV CHROME_PATH=/usr/bin/chromium
-ENV CHROME_DEVEL_SANDBOX=/usr/lib/chromium/chrome-sandbox
+# Let Puppeteer download its own Chromium instead of using system
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=false
 ENV DISPLAY=:99
 ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
+ENV CHROME_DEVEL_SANDBOX=/usr/lib/chromium/chrome-sandbox
 
 # ============ Dependencies Stage ============
 FROM base AS deps
