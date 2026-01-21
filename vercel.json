@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "cd apps/web && npm run build",
+  "buildCommand": "npm run build --workspace=@parent-assistant/database --workspace=@parent-assistant/shared && cd apps/web && npm run build",
   "outputDirectory": "apps/web/.next",
   "installCommand": "npm install --workspaces --ignore-scripts"
 }
