@@ -465,16 +465,16 @@ ${event.location ? `מיקום: ${event.location}` : ''}
       const events = data.items || [];
 
       // Get user's phone
-      const { data: session } = await supabase
-        .from('wa_sessions')
+      const { data: user } = await supabase
+        .from('users')
         .select('phone')
-        .eq('user_id', userId)
+        .eq('id', userId)
         .single();
 
-      if (!session?.phone) return;
+      if (!user?.phone) return;
 
       for (const event of events) {
-        await this.checkAndSendReminder(userId, session.phone, event);
+        await this.checkAndSendReminder(userId, user.phone, event);
       }
     } catch (error) {
       console.error('[Calendar] Error checking user events:', error);
@@ -502,15 +502,15 @@ ${event.location ? `מיקום: ${event.location}` : ''}
 
     for (const event of events) {
       // Get user's phone
-      const { data: session } = await supabase
-        .from('wa_sessions')
+      const { data: user } = await supabase
+        .from('users')
         .select('phone')
-        .eq('user_id', event.user_id)
+        .eq('id', event.user_id)
         .single();
 
-      if (!session?.phone) continue;
+      if (!user?.phone) continue;
 
-      await this.sendEventReminder(event.user_id, session.phone, {
+      await this.sendEventReminder(event.user_id, user.phone, {
         id: event.google_event_id,
         summary: event.summary,
         start: { dateTime: event.start_time },

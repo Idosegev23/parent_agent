@@ -615,10 +615,10 @@ export class MessageProcessor {
       const targetChildId = childId || group.child_id;
 
       // Get user's phone number for WhatsApp notification
-      const { data: session } = await this.supabase
-        .from('wa_sessions')
+      const { data: user } = await this.supabase
+        .from('users')
         .select('phone')
-        .eq('user_id', group.user_id)
+        .eq('id', group.user_id)
         .single();
 
       // Get child name for the event
@@ -671,7 +671,7 @@ export class MessageProcessor {
           .from('pending_approvals')
           .insert({
             user_id: group.user_id,
-            phone: session?.phone || '',
+            phone: user?.phone || '',
             event_summary: summary,
             event_description: game.description,
             event_start: startTime.toISOString(),
@@ -691,7 +691,7 @@ export class MessageProcessor {
         console.log(`[MessageProcessor] Created pending approval for game: ${summary}`);
 
         // Send WhatsApp message asking for approval
-        if (session?.phone && pendingApproval) {
+        if (user?.phone && pendingApproval) {
           await this.sendGameApprovalRequest(group.user_id, pendingApproval, childName);
         }
       }

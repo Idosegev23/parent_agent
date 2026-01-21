@@ -87,22 +87,22 @@ export class GreenAPISender {
 
   /**
    * Send a WhatsApp message to a user by userId
-   * Looks up the user's phone from wa_sessions
+   * Looks up the user's phone from users table
    */
   async sendMessageToUser(userId: string, message: string): Promise<string | null> {
     try {
-      const { data: session } = await this.supabase
-        .from('wa_sessions')
+      const { data: user } = await this.supabase
+        .from('users')
         .select('phone')
-        .eq('user_id', userId)
+        .eq('id', userId)
         .single();
 
-      if (!session?.phone) {
+      if (!user?.phone) {
         console.warn('[GreenAPI] No phone found for user:', userId);
         return null;
       }
 
-      return await this.sendMessage(session.phone, message);
+      return await this.sendMessage(user.phone, message);
     } catch (error) {
       console.error('[GreenAPI] Error sending message to user:', error);
       return null;
