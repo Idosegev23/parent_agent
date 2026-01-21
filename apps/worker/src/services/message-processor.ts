@@ -616,7 +616,7 @@ export class MessageProcessor {
 
       // Get user's phone number for WhatsApp notification
       const { data: session } = await this.supabase
-        .from('whatsapp_sessions')
+        .from('wa_sessions')
         .select('phone')
         .eq('user_id', group.user_id)
         .single();

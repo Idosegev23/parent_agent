@@ -466,7 +466,7 @@ ${event.location ? `מיקום: ${event.location}` : ''}
 
       // Get user's phone
       const { data: session } = await supabase
-        .from('whatsapp_sessions')
+        .from('wa_sessions')
         .select('phone')
         .eq('user_id', userId)
         .single();
@@ -503,7 +503,7 @@ ${event.location ? `מיקום: ${event.location}` : ''}
     for (const event of events) {
       // Get user's phone
       const { data: session } = await supabase
-        .from('whatsapp_sessions')
+        .from('wa_sessions')
         .select('phone')
         .eq('user_id', event.user_id)
         .single();

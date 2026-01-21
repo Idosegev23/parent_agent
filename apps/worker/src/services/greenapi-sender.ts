@@ -87,12 +87,12 @@ export class GreenAPISender {
 
   /**
    * Send a WhatsApp message to a user by userId
-   * Looks up the user's phone from whatsapp_sessions
+   * Looks up the user's phone from wa_sessions
    */
   async sendMessageToUser(userId: string, message: string): Promise<string | null> {
     try {
       const { data: session } = await this.supabase
-        .from('whatsapp_sessions')
+        .from('wa_sessions')
         .select('phone')
         .eq('user_id', userId)
         .single();

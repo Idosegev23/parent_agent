@@ -215,6 +215,8 @@ export class Scheduler {
       }
 
       for (const conn of connections) {
+        if (!conn.user_id) continue;
+
         // Get user's phone
         const { data: user } = await this.supabase
           .from('users')
@@ -226,7 +228,7 @@ export class Scheduler {
           continue;
         }
 
-        await this.calendarService.processExtractedEvents(conn.user_id, user.phone);
+        await this.calendarService.processExtractedEvents(conn.user_id, user.phone!);
       }
 
       // Clean up expired approvals
