@@ -53,6 +53,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 
 # Copy source code
+COPY package.json ./
 COPY apps/worker/ ./apps/worker/
 COPY packages/database/ ./packages/database/
 COPY packages/shared/ ./packages/shared/
