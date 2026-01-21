@@ -81,8 +81,10 @@ RUN groupadd -r worker && useradd -r -g worker worker
 # Copy built artifacts
 COPY --from=builder /app/apps/worker/dist ./apps/worker/dist
 COPY --from=builder /app/apps/worker/package.json ./apps/worker/
+COPY --from=builder /app/packages/database/dist ./packages/database/dist
 COPY --from=builder /app/packages/database/src ./packages/database/src
 COPY --from=builder /app/packages/database/package.json ./packages/database/
+COPY --from=builder /app/packages/shared/dist ./packages/shared/dist
 COPY --from=builder /app/packages/shared/src ./packages/shared/src
 COPY --from=builder /app/packages/shared/package.json ./packages/shared/
 COPY --from=builder /app/node_modules ./node_modules
