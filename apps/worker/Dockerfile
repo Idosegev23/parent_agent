@@ -28,9 +28,14 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-# Puppeteer configuration
+# Puppeteer and Chromium configuration
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+ENV CHROME_BIN=/usr/bin/chromium
+ENV CHROME_PATH=/usr/bin/chromium
+ENV CHROME_DEVEL_SANDBOX=/usr/lib/chromium/chrome-sandbox
+ENV DISPLAY=:99
+ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 
 # ============ Dependencies Stage ============
 FROM base AS deps
@@ -90,8 +95,11 @@ COPY --from=builder /app/packages/shared/package.json ./packages/shared/
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
 
-# Create sessions directory
-RUN mkdir -p /app/apps/worker/sessions && chown -R worker:worker /app
+# Create sessions and temp directories
+RUN mkdir -p /app/apps/worker/sessions && \
+    mkdir -p /tmp/.X11-unix && \
+    chmod 1777 /tmp && \
+    chown -R worker:worker /app
 
 USER worker
 
