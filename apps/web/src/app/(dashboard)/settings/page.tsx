@@ -237,6 +237,35 @@ export default function SettingsPage() {
     loadData();
   };
 
+  const reconnectWhatsApp = async () => {
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) return;
+
+    setMessage('מנתק WhatsApp...');
+
+    // Update status to disconnected to trigger reconnection
+    await (supabase.from('wa_sessions') as any)
+      .update({ 
+        status: 'disconnected',
+        qr_code: null,
+        error_message: null
+      })
+      .eq('user_id', user.id);
+
+    // Wait a moment then request new QR
+    setTimeout(async () => {
+      setMessage('מבקש חיבור מחדש...');
+      await (supabase.from('wa_sessions') as any)
+        .update({ status: 'qr_required' })
+        .eq('user_id', user.id);
+      
+      setMessage('');
+      loadData();
+    }, 1000);
+  };
+
   const connectGoogleCalendar = async () => {
     setIsConnectingCalendar(true);
     
@@ -360,14 +389,25 @@ export default function SettingsPage() {
         ) : (
           <div className="space-y-4">
             <div className="bg-green-50 rounded-lg p-4">
-              <p className="text-green-800 text-sm">
-                WhatsApp מחובר ופעיל. ההודעות מהקבוצות נקראות אוטומטית.
-              </p>
-              {waSession.last_heartbeat && (
-                <p className="text-green-600 text-xs mt-1">
-                  עדכון אחרון: {new Date(waSession.last_heartbeat).toLocaleTimeString('he-IL')}
-                </p>
-              )}
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1">
+                  <p className="text-green-800 text-sm">
+                    WhatsApp מחובר ופעיל. ההודעות מהקבוצות נקראות אוטומטית.
+                  </p>
+                  {waSession.last_heartbeat && (
+                    <p className="text-green-600 text-xs mt-1">
+                      פעימה אחרונה: {new Date(waSession.last_heartbeat).toLocaleString('he-IL')}
+                    </p>
+                  )}
+                </div>
+                <button
+                  onClick={reconnectWhatsApp}
+                  className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 text-sm bg-white border border-green-300 text-green-700 hover:bg-green-50 rounded-lg transition-colors"
+                >
+                  <RefreshCw className="w-4 h-4" />
+                  נתק וחבר מחדש
+                </button>
+              </div>
             </div>
 
             {/* Phone number for receiving messages */}
